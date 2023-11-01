@@ -9,48 +9,36 @@ public class MainMenuUI : MonoBehaviour
     public GameObject optionsPanel;
     public GameObject creditsPanel;
 
-    [Header("Buttons")]
-    public Button startGameButton;
-    public Button optionsButton;
-    public Button creditsButton;
-    public Button quitButton;
-    public Button backButtonOptions; 
-    public Button backButtonCredits; 
 
-    private void Start()
-    {
-    
-    }
-
-    private void StartGame()
+    public void StartGame()
     {
         SceneManager.LoadScene("GameScene"); 
     }
 
-    private void ShowOptions()
+    public void ShowOptions()
     {
         mainMenuPanel.SetActive(false);
         optionsPanel.SetActive(true);
     }
 
-    private void ShowCredits()
+    public void ShowCredits()
     {
         mainMenuPanel.SetActive(false);
         creditsPanel.SetActive(true);
     }
 
-    private void QuitGame()
+    public void QuitGame()
     {
         Application.Quit();
     }
 
-    private void ShowMainMenuFromOptions()
+    public void ShowMainMenuFromOptions()
     {
         optionsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
     }
 
-    private void ShowMainMenuFromCredits()
+    public void ShowMainMenuFromCredits()
     {
         creditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);

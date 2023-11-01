@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio; 
 using System.Collections.Generic;
+using TMPro;
 
 
 public class SettingsUI : MonoBehaviour
 {
     [Header("Graphics Settings")]
-    public Dropdown resolutionDropdown;
+    public TMP_Dropdown resolutionDropdown;
     public Toggle fullscreenToggle;
 
     [Header("Audio Settings")]

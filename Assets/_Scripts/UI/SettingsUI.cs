@@ -70,17 +70,17 @@ public class SettingsUI : MonoBehaviour
 
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("MasterVolume", volume);
+        audioMixer.SetFloat("masterVolume", volume);
     }
 
     public void SetMusicVolume(float volume)
     {
-        audioMixer.SetFloat("MusicVolume", volume);
+        audioMixer.SetFloat("musicVolume", volume);
     }
 
     public void SetSFXVolume(float volume)
     {
-        audioMixer.SetFloat("SFXVolume", volume);
+        audioMixer.SetFloat("soundVolume", volume);
     }
 
     public void SetInvertY(bool isInverted)

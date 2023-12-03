@@ -26,10 +26,18 @@ public class SettingsUI : MonoBehaviour
 
     private Resolution[] resolutions;
 
+    public void Awake()
+    {
+        if(PlayerPrefs.GetFloat("ResolutionX") != 0)
+            LoadCurrentSettings();
+        else
+            LoadDefaultSettings();
+    }
+
     private void Start()
     {
         LoadAvailableResolutions();
-        LoadCurrentSettings();
+        ApplyCurrentToUI();
     }
 
     private void LoadAvailableResolutions()
@@ -39,6 +47,9 @@ public class SettingsUI : MonoBehaviour
 
         List<string> options = new List<string>();
         int currentResolutionIndex = 0;
+
+        //default resolution is the first one
+        currentResolutionIndex = 0;
 
         for (int i = 0; i < resolutions.Length; i++)
         {
@@ -56,10 +67,9 @@ public class SettingsUI : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
-    public void SetResolution(int resolutionIndex)
+    public void SetResolution(int selected)
     {
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        Screen.SetResolution(resolutions[selected].width, resolutions[selected].height, Screen.fullScreen);
     }
 
     public void SetFullscreen(bool isFullscreen)
@@ -96,28 +106,47 @@ public class SettingsUI : MonoBehaviour
         PlayerPrefs.SetFloat("SFXVolume", sfxVolumeSlider.value);
 
         PlayerPrefs.Save();
+        LoadCurrentSettings();
     }
 
     public void CancelChanges()
     {
         LoadCurrentSettings();
+        ApplyCurrentToUI();
     }
 
     private void LoadCurrentSettings()
     {
         SetResolution(PlayerPrefs.GetInt("Resolution"));
-        resolutionDropdown.value = PlayerPrefs.GetInt("Resolution");
-
         SetFullscreen(IntToBool(PlayerPrefs.GetInt("Fullscreen")));
-        fullscreenToggle.isOn = IntToBool(PlayerPrefs.GetInt("Fullscreen"));
-
         SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume"));
-        masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume");
-
         SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
-        musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-
         SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
+    }
+
+    private void LoadDefaultSettings()
+    {
+        Screen.SetResolution(Screen.resolutions[Screen.resolutions.Length-1].width, Screen.resolutions[Screen.resolutions.Length-1].height, Screen.fullScreen);
+        SetFullscreen(true);
+        SetMasterVolume(1);
+        SetMusicVolume(1);
+        SetSFXVolume(1);
+
+        PlayerPrefs.SetInt("Resolution", Screen.resolutions.Length-1);
+        PlayerPrefs.SetInt("Fullscreen", 1);
+        PlayerPrefs.SetFloat("MasterVolume", 1);
+        PlayerPrefs.SetFloat("MusicVolume", 1);
+        PlayerPrefs.SetFloat("SFXVolume", 1);
+
+        PlayerPrefs.Save();
+    }
+
+    private void ApplyCurrentToUI()
+    {
+        resolutionDropdown.value = PlayerPrefs.GetInt("Resolution");
+        fullscreenToggle.isOn = IntToBool(PlayerPrefs.GetInt("Fullscreen"));
+        masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume");
+        musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         sfxVolumeSlider.value = PlayerPrefs.GetFloat("SFXVolume");
     }
 

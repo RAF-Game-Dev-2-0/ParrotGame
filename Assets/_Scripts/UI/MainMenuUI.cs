@@ -9,6 +9,10 @@ public class MainMenuUI : MonoBehaviour
     public GameObject optionsPanel;
     public GameObject creditsPanel;
 
+    public void Start()
+    {
+        optionsPanel.SetActive(false);
+    }
 
     public void StartGame()
     {
@@ -43,5 +47,4 @@ public class MainMenuUI : MonoBehaviour
         creditsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
     }
-
 }

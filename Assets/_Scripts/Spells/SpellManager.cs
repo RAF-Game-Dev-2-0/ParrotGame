@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class SpellManager : MonoBehaviour
 {
@@ -19,12 +20,13 @@ public class SpellManager : MonoBehaviour
         holder = GetComponent<SpellHolder>();
         playerScript = GetComponent<Player>();
         spellDictionary = new Dictionary<string, Spell>();
+        ResetSpellState();
     }
 
     private void Start()
     {
         // Na primer: "Fire_And_Air"
-        Spell[] allSpells = Resources.LoadAll<Spell>("Assets/_Scripts/Spells/_SpellBook"); 
+        Spell[] allSpells = Resources.LoadAll<Spell>("Spells"); 
         foreach (Spell spell in allSpells)
         {
             string key = spell.spellType.ToString();
@@ -38,10 +40,8 @@ public class SpellManager : MonoBehaviour
 
     private bool CheckAction()
     {
-        Debug.Log("Check : " + Time.time);
         if (lastAction + actionLock < Time.time)
         {
-            Debug.Log("Pass : " + Time.time);
             lastAction = Time.time;
             return true;
         }
@@ -53,11 +53,11 @@ public class SpellManager : MonoBehaviour
         if (!CheckAction()) return;
         if (connector != Spell.SpellConnector.None ) secondarySpellType = spellType;
         else primarySpellType = spellType;
-
     }
     public void SetConnectorType(Spell.SpellConnector spellConnector)
     {
         if (!CheckAction()) return;
+        if (primarySpellType == Spell.SpellType.None) return;
         if (secondarySpellType != Spell.SpellType.None) return;
         connector = spellConnector;
     }
@@ -67,20 +67,21 @@ public class SpellManager : MonoBehaviour
         if (!CheckAction()) return;
         if (primarySpellType == Spell.SpellType.None) return;
         string key = primarySpellType.ToString();
-        if (connector == Spell.SpellConnector.None)
+        if (connector != Spell.SpellConnector.None)
         {
             if(secondarySpellType == Spell.SpellType.None) return;
             key += "_" + connector.ToString() + "_" + secondarySpellType.ToString();
         }
-
         if (spellDictionary.TryGetValue(key, out Spell combinedSpell))
         {
             holder.spell = combinedSpell;
-        }else
+        }
+        else
         {
             holder.spell = null;
         }
         ResetSpellState();
+
         Invoke(nameof(CastSpell), 1);
     }
     public void CancelSpell()
@@ -99,7 +100,7 @@ public class SpellManager : MonoBehaviour
         if (!CheckAction()) return;
         if (holder.spell == null) throw new System.Exception("Spell type missing.");
         Debug.Log("Casting : " + holder.spell.name);
-        Instantiate(holder.spell, transform.position, Quaternion.identity) ;
+        Instantiate(holder.spell.spellEffect, transform.position, Quaternion.identity) ;
     }
 
 }

@@ -100,7 +100,7 @@ public class SpellManager : MonoBehaviour
         if (!CheckAction()) return;
         if (holder.spell == null) throw new System.Exception("Spell type missing.");
         Debug.Log("Casting : " + holder.spell.name);
-        //Instantiate(holder.spell, transform.position, Quaternion.identity) ;
+        Instantiate(holder.spell.spellEffect, transform.position, Quaternion.identity) ;
     }
 
 }

@@ -3,12 +3,23 @@ using System.Collections.Generic;
 
 public class SpellManager : MonoBehaviour
 {
+    private Player playerScript;
 
-    public Spell primarySpell;
-    public Spell.SpellConnector connector;
-    public Spell secondarySpell;
+    private Spell.SpellType primarySpellType;
+    private Spell.SpellConnector connector;
+    private Spell.SpellType secondarySpellType;
+    private SpellHolder holder;
+    private Dictionary<string, Spell> spellDictionary;
 
-    public Dictionary<string, Spell> spellDictionary = new Dictionary<string, Spell>();
+    [SerializeField] private float actionLock = 0.500f;
+    private float lastAction = 0;
+
+    void Awake()
+    {
+        holder = GetComponent<SpellHolder>();
+        playerScript = GetComponent<Player>();
+        spellDictionary = new Dictionary<string, Spell>();
+    }
 
     private void Start()
     {
@@ -25,29 +36,70 @@ public class SpellManager : MonoBehaviour
         }
     }
 
-    public Spell GetCombinedSpell()
+    private bool CheckAction()
     {
-        string key = primarySpell.spellType.ToString();
-        if (connector != Spell.SpellConnector.None)
+        Debug.Log("Check : " + Time.time);
+        if (lastAction + actionLock < Time.time)
         {
-            key += "_" + connector.ToString() + "_" + secondarySpell.spellType.ToString();
+            Debug.Log("Pass : " + Time.time);
+            lastAction = Time.time;
+            return true;
+        }
+        return false;
+    }
+
+    public void SetSpellType(Spell.SpellType spellType)
+    {
+        if (!CheckAction()) return;
+        if (connector != Spell.SpellConnector.None ) secondarySpellType = spellType;
+        else primarySpellType = spellType;
+
+    }
+    public void SetConnectorType(Spell.SpellConnector spellConnector)
+    {
+        if (!CheckAction()) return;
+        if (secondarySpellType != Spell.SpellType.None) return;
+        connector = spellConnector;
+    }
+
+    public void CraftSpell()
+    {
+        if (!CheckAction()) return;
+        if (primarySpellType == Spell.SpellType.None) return;
+        string key = primarySpellType.ToString();
+        if (connector == Spell.SpellConnector.None)
+        {
+            if(secondarySpellType == Spell.SpellType.None) return;
+            key += "_" + connector.ToString() + "_" + secondarySpellType.ToString();
         }
 
         if (spellDictionary.TryGetValue(key, out Spell combinedSpell))
         {
-            return combinedSpell;
+            holder.spell = combinedSpell;
+        }else
+        {
+            holder.spell = null;
         }
-
-        return null; 
+        ResetSpellState();
+        Invoke(nameof(CastSpell), 1);
     }
-
+    public void CancelSpell()
+    {
+        if (!CheckAction()) return;
+        ResetSpellState();
+    }
+    private void ResetSpellState()
+    {
+        primarySpellType = Spell.SpellType.None;
+        connector = Spell.SpellConnector.None;
+        secondarySpellType = Spell.SpellType.None;
+    }
     public void CastSpell()
     {
-        Spell spellToCast = GetCombinedSpell();
-        if (spellToCast != null)
-        {
-
-        }
+        if (!CheckAction()) return;
+        if (holder.spell == null) throw new System.Exception("Spell type missing.");
+        Debug.Log("Casting : " + holder.spell.name);
+        Instantiate(holder.spell, transform.position, Quaternion.identity) ;
     }
 
 }

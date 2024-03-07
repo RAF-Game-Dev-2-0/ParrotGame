@@ -8,14 +8,15 @@ public class Spell : ScriptableObject
         Fire,
         Water,
         Air,
-        Earth
+        Earth,
+        None
     }
 
     public enum SpellConnector
     {
-        None, 
         And,
-        Then
+        Then,
+        None
     }
 
     public SpellType spellType;

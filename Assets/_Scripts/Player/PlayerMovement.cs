@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
     // --------------------------
     [Header("KeyBinds")]
     [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
-    [SerializeField] KeyCode fireAbility = KeyCode.LeftControl;
     float horizontalInput;
     float verticalInput;
     // -----------------------------refs

@@ -2,10 +2,9 @@ using System;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour {
-
-    private Player playerScript;
     private SpellManager spellManager;
 
+    [Header("KeyBinds")]
     [SerializeField] public KeyCode fireSpellKeyCode = KeyCode.Alpha1;
     [SerializeField] public KeyCode airSpellKeyCode = KeyCode.Alpha2;
     [SerializeField] public KeyCode earthSpellKeyCode = KeyCode.Alpha3;
@@ -17,7 +16,6 @@ public class PlayerInput : MonoBehaviour {
 
     void Awake()
     {
-        playerScript = GetComponent<Player>();
         spellManager = GetComponent<SpellManager>();
     }
 
@@ -28,57 +26,47 @@ public class PlayerInput : MonoBehaviour {
 
     private void HandleSpellInput()
     {
-        Debug.Log("Hello spell input");
         if (Input.GetKeyDown(fireSpellKeyCode))
         {
+            Debug.Log("Set Fire");
             spellManager.SetSpellType(Spell.SpellType.Fire);
         }
-        if (Input.GetKeyDown(airSpellKeyCode))
+        else if (Input.GetKeyDown(airSpellKeyCode))
         {
+            Debug.Log("Set Air");
             spellManager.SetSpellType(Spell.SpellType.Air);
         }
-        if (Input.GetKeyDown(earthSpellKeyCode))
+        else if (Input.GetKeyDown(earthSpellKeyCode))
         {
+            Debug.Log("Set Earth");
             spellManager.SetSpellType(Spell.SpellType.Earth);
         }
-        if (Input.GetKeyDown(waterSpellKeyCode))
+        else if (Input.GetKeyDown(waterSpellKeyCode))
         {
+            Debug.Log("Set Water");
             spellManager.SetSpellType(Spell.SpellType.Water);
         }
-        if (Input.GetKeyDown(andConnectorKeyCode))
+        else if (Input.GetKeyDown(andConnectorKeyCode))
         {
+            Debug.Log("Set And");
             spellManager.SetConnectorType(Spell.SpellConnector.And);
         }
-        if (Input.GetKeyDown(thenConnectorKeyCode))
+        else if (Input.GetKeyDown(thenConnectorKeyCode))
         {
+            Debug.Log("Set Then");
             spellManager.SetConnectorType(Spell.SpellConnector.Then);
         }
-        if (Input.GetKeyDown(launchSpellKeyCode))
+        else if (Input.GetKeyDown(launchSpellKeyCode))
         {
+            Debug.Log("Set Launch");
             spellManager.CraftSpell();
         }
-        if (Input.GetKeyDown(cancelSpellKeyCode))
+        else if (Input.GetKeyDown(cancelSpellKeyCode))
         {
+            Debug.Log("Set Cancel");
             spellManager.CancelSpell();
         }
 
-    }
-
-    public Vector2 GetMovementVectorNormalized(){
-        Vector2 inputVector = new Vector2(0, 0);
-
-        if (Input.GetKey(KeyCode.W)){
-            inputVector.y = +1;  
-        } if (Input.GetKey(KeyCode.S)) {
-            inputVector.y = -1;
-        } if (Input.GetKey(KeyCode.A)) {
-            inputVector.x = -1;
-        } if (Input.GetKey(KeyCode.D)) {
-            inputVector.x = +1;
-        }
-
-        inputVector = inputVector.normalized;
-        return inputVector;
     }
 
 }

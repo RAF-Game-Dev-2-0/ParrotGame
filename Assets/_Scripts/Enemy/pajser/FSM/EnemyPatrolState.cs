@@ -6,7 +6,6 @@ public class EnemyPatrolState : EnemyBaseState
 
     public override void EnterState(EnemyStateManager enemy){
         enemy.agent.SetDestination(enemy.GetNextDestination());
-        Debug.Log("patroll");
     }
     public override void UpdateState(EnemyStateManager enemy){
         if(enemy.agent.remainingDistance <= enemy.agent.stoppingDistance){

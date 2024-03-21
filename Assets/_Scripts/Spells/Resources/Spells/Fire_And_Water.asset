@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire_And_Water
   m_EditorClassIdentifier: 
   spellType: 0
-  connector: 1
+  connector: 0
   secondarySpellType: 1
   power: 10
   range: 5

@@ -35,8 +35,6 @@ public class GalebAttack : AttackPlayer
 
             // Check if accelerating or decelerating based on the distance to the playerStartPos
             if (accelerating){
-
-                Debug.Log("acel");
                 // agent.speed = Mathf.Lerp(agent.speed, maxAttackSpeed, (range - horizontalDirection.magnitude) / range);
                 agent.speed = maxAttackSpeed;
 

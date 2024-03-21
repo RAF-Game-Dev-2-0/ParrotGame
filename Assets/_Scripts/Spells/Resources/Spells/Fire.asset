@@ -18,5 +18,5 @@ MonoBehaviour:
   power: 10
   range: 5
   castTime: 1
-  spellEffect: {fileID: 6104107459796304070, guid: 43f2ba53c38427b44ba3316e4bb9ea07,
+  spellObject: {fileID: 9009550077742859870, guid: aef65846ed780504f95332a67086eacb,
     type: 3}

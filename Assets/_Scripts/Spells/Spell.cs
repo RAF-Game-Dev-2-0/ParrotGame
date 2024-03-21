@@ -26,6 +26,6 @@ public class Spell : ScriptableObject
     public float power = 10.0f;
     public float range = 5.0f;
     public float castTime = 1.0f;
-    public GameObject spellEffect;
+    public GameObject spellObject;
 
 }

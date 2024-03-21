@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9dee117a5864540e09efab4ad1c8c936, type: 3}
-  m_Name: Water
+  m_Name: Air_Then_Fire
   m_EditorClassIdentifier: 
-  spellType: 1
-  connector: 2
-  secondarySpellType: 4
+  spellType: 2
+  connector: 1
+  secondarySpellType: 0
   power: 10
   range: 5
   castTime: 1
-  spellObject: {fileID: 3087843026147786498, guid: 5b1095df698a1694f94870cb342dfbda,
-    type: 3}
+  spellObject: {fileID: 0}

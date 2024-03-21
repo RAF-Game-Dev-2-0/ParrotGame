@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 
 public class Player : MonoBehaviour, IDamagable
 {
-    //[Header("Health attributes")] // ----------------------------
-    [SerializeField] float maxHpInInspector;
+    [Header("Health attributes")] // ----------------------------
+    public float maxHealth;
     public float health {get; set;}
-    [SerializeField] public float maxHealth {get; set;}
     [HideInInspector] public bool playerIsDead;
     // ---------------------------------------------------------
     [SerializeField] GameObject playerAbility;
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour, IDamagable
 
     private void Start()
     {
-        maxHealth = maxHpInInspector;
+        // maxHealth = maxHpInInspector;
 
         health = maxHealth; 
         playerIsDead = false;

@@ -8,6 +8,8 @@ public class GalebAttack : AttackPlayer
     public Transform player;
     [SerializeField] BoxCollider weaponTrigger;
     [SerializeField] private float maxAttackSpeed = 23f;
+    [SerializeField] private float attackAcceleration;
+    [SerializeField] private float attackDeceleration; 
     private float startSpeed;
     private bool accelerating;
     Vector3 prevHorizDirection;
@@ -35,8 +37,8 @@ public class GalebAttack : AttackPlayer
 
             // Check if accelerating or decelerating based on the distance to the playerStartPos
             if (accelerating){
-                // agent.speed = Mathf.Lerp(agent.speed, maxAttackSpeed, (range - horizontalDirection.magnitude) / range);
-                agent.speed = maxAttackSpeed;
+
+                agent.speed = Mathf.Lerp(agent.speed, maxAttackSpeed, attackAcceleration);
 
                 if(prevHorizDirection.magnitude < horizontalDirection.magnitude)
                     accelerating = false;
@@ -44,9 +46,7 @@ public class GalebAttack : AttackPlayer
                 prevHorizDirection = horizontalDirection;
             }
             else{ // Decelerating
-                agent.speed = Mathf.Lerp(agent.speed, startSpeed, (range - agent.remainingDistance) / range - 0.3f); // -------------------nzm sto nece da radi bez 0.3 lepo
-                // agent.speed = startSpeed;
-                Debug.Log((range - agent.remainingDistance) / range);
+                agent.speed = Mathf.Lerp(agent.speed, startSpeed, attackDeceleration);
 
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {

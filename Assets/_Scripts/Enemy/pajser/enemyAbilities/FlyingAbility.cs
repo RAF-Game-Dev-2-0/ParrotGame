@@ -25,7 +25,7 @@ public class FlyingAbility : MonoBehaviour
     void Update()
     {
         if(acceleration != 0)
-            rb.velocity += transform.forward * acceleration/100f;
+            rb.velocity += transform.forward * Time.deltaTime * acceleration;
         
         Invoke("DestroySelf", destroyAfter);
     }

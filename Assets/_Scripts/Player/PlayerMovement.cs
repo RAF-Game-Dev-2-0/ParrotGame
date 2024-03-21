@@ -18,10 +18,17 @@ public class PlayerMovement : MonoBehaviour
     float verticalInput;
     // -----------------------------refs
     [SerializeField] Transform playerModel;
+    [SerializeField] GameObject mainCamObj;
+    [SerializeField] Transform orientation;
     bool grounded;
     Rigidbody rb;
 
     void Start(){
+        //invisible cursor
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false; 
+
+        // define rigidbody
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -31,6 +38,10 @@ public class PlayerMovement : MonoBehaviour
     void Update(){
         GetInputs();
         RotatePlayer();
+
+        //view direction (orientation) rotate orientation towards main cam view
+        Vector3 viewDir = transform.position - new Vector3(mainCamObj.transform.position.x, transform.position.y, mainCamObj.transform.position.z);
+        orientation.forward = viewDir.normalized;
     }
 
     void FixedUpdate(){
@@ -39,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void MovePlayer(){
-        Vector3 moveDirection = transform.forward * verticalInput + transform.right * horizontalInput;
+        Vector3 moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
              
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
@@ -57,25 +68,31 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void RotatePlayer(){
-        // Vector3 inputDir = transform.forward * verticalInput + transform.right * horizontalInput;
+        // ------------------------------------------------------------------------------rotate model towards cam view
+        playerModel.forward = orientation.forward;
+
+        // ----------------------------------------------------------------------------------------------------- to rotate model towards move direction
+        // Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         // if(inputDir != Vector3.zero)
-        //     playerModel.forward = Vector3.Slerp(playerModel.forward, inputDir.normalized, rotationSpeed * Time.deltaTime); ------------------- to rotate towards move direction
+        //     playerModel.forward = Vector3.Slerp(playerModel.forward, inputDir.normalized, rotationSpeed * Time.deltaTime);
+        // ------------------------------------------- ----------------------------------------
 
-        // Get the mouse position in the world coordinates
-        Vector3 mousePos = Input.mousePosition;
-        mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
+        // // Get the mouse position in the world coordinates ------------------------------------------------------------------------------------------------------------ rotation towards mouse
+        // Vector3 mousePos = Input.mousePosition;
+        // mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
 
-        // Calculate the direction from the player to the mouse position
-        Vector3 directionToMouse = mousePos - transform.position;
-        directionToMouse.y = 0f; // Ensure no vertical rotation
+        // // Calculate the direction from the player to the mouse position
+        // Vector3 directionToMouse = mousePos - transform.position;
+        // directionToMouse.y = 0f; // Ensure no vertical rotation
 
-        // Rotate the player towards the mouse
-        if (directionToMouse != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToMouse);
-            playerModel.rotation = Quaternion.Slerp(playerModel.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
+        // // Rotate the player towards the mouse
+        // if (directionToMouse != Vector3.zero)
+        // {
+        //     Quaternion targetRotation = Quaternion.LookRotation(directionToMouse);
+        //     playerModel.rotation = Quaternion.Slerp(playerModel.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        // }
+        // -------------------------------------------------------------------------
     }
 
     

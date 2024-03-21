@@ -5,11 +5,15 @@ using UnityEngine;
 public class OnTriggerDealDmg : MonoBehaviour
 {
     [SerializeField] float damage;
+    [SerializeField] BoxCollider ignoreColl;
 
     void OnTriggerEnter(Collider coll){
-        var dmgThis = coll.GetComponent<IDamagable>();
-        if(dmgThis != null){
-            dmgThis.TakeDamage(damage, this.transform);
+        if (coll != ignoreColl)
+        {
+            var dmgThis = coll.GetComponent<IDamagable>();
+            if(dmgThis != null){
+                dmgThis.TakeDamage(damage, this.transform);
+            }
         }
    }
 

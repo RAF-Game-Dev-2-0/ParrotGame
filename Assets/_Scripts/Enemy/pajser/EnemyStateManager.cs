@@ -65,7 +65,6 @@ public class EnemyStateManager : MonoBehaviour, IDamagable
     // Update is called once per frame
     void Update()
     {
-        
         currentState.UpdateState(this);
         
     }

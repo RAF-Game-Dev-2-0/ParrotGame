@@ -8,6 +8,7 @@ public class EnemyIdleState : EnemyBaseState
     public override void EnterState(EnemyStateManager enemy){
         tempIdleTime = enemy.doIdleTime;
         // do idle animation
+            // Debug.Log("idlee:");
     }
     public override void UpdateState(EnemyStateManager enemy){
 

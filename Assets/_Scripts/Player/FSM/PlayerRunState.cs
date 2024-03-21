@@ -1,18 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class PlayerRunState : MonoBehaviour
+public class PlayerRunState<EState> : BaseState<EState> where EState : Enum
 {
-    // Start is called before the first frame update
-    void Start()
+   
+
+    public PlayerRunState(EState enumState) : base(enumState)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void EnterState(){
+        Debug.Log("enter PlayerRun");
     }
+
+    public override void ExitState(){
+        Debug.Log("exit PlayerRun");
+    }
+
+    public override void UpdateState(){
+
+    }
+
+    public override EState GetNextState(){
+        return StateKey;
+    }
+
 }

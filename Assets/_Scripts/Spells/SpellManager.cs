@@ -12,7 +12,7 @@ public class SpellManager : MonoBehaviour
     private SpellHolder holder;
     private Dictionary<string, Spell> spellDictionary;
 
-    [SerializeField] private float actionLock = 0.500f;
+    [SerializeField] private float actionLock = 0.100f;
     private float lastAction = 0;
 
     void Awake()
@@ -25,6 +25,7 @@ public class SpellManager : MonoBehaviour
 
     private void Start()
     {
+        QualitySettings.antiAliasing = 2;
         // Na primer: "Fire_And_Air"
         Spell[] allSpells = Resources.LoadAll<Spell>("Spells"); 
         foreach (Spell spell in allSpells)
@@ -103,7 +104,7 @@ public class SpellManager : MonoBehaviour
         if (!CheckAction()) return;
         if (holder.spell == null) throw new System.Exception("Spell type missing.");
         Debug.Log("Casting : " + holder.spell.name);
-        Instantiate(holder.spell.spellObject, transform.position, Quaternion.identity) ;
+        holder.spell.Cast(this);
     }
 
 }

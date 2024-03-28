@@ -23,9 +23,15 @@ public class Spell : ScriptableObject
     public SpellConnector connector;
     public SpellType secondarySpellType; 
 
-    public float power = 10.0f;
-    public float range = 5.0f;
-    public float castTime = 1.0f;
+    public float power;
+    public float range;
+    public float castTime;
     public GameObject spellObject;
+    public MonoBehaviour controller;
+
+    public void Cast(SpellManager parent)
+    {
+        Instantiate(spellObject, parent.transform.position, Quaternion.identity);
+    }
 
 }

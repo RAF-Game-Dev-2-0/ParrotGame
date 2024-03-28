@@ -38,22 +38,16 @@ public class PlayerMovement : MonoBehaviour
     void Update(){
         GetInputs();
         RotatePlayer();
+        MovePlayer();
 
         //view direction (orientation) rotate orientation towards main cam view
         Vector3 viewDir = transform.position - new Vector3(mainCamObj.transform.position.x, transform.position.y, mainCamObj.transform.position.z);
         orientation.forward = viewDir.normalized;
     }
 
-    void FixedUpdate(){
-        MovePlayer();
-
-    }
-
     private void MovePlayer(){
         Vector3 moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-             
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        rb.AddForce(moveDirection.normalized * moveSpeed * Time.deltaTime * 500, ForceMode.Force);
     }
 
     private void GetInputs(){

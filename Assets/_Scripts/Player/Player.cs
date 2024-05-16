@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IDamagable
     [SerializeField] GameObject playerAbility;
     [SerializeField] Transform playerModel;
     // script references ----------------------------------------
-    private PlayerFeedback playerFeedback;
+    //private PlayerFeedback playerFeedback;
     [SerializeField] private Healthbar hpBarScript;
     [SerializeField] public PlayerMovement playerMovement;
 
